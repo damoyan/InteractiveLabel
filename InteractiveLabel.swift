@@ -68,6 +68,18 @@ public class InteractiveLabel: UIView {
         }
     }
     
+    /// when set `numberOfLines` = 0, you can use this property to get the real displayed number of lines on screen
+    public var numberOfDisplayedLines: Int {
+        var count = 0
+        if let layoutManager = layoutManager, let container = textContainer {
+            let glyphRange = layoutManager.glyphRangeForTextContainer(container)
+            layoutManager.enumerateLineFragmentsForGlyphRange(glyphRange, usingBlock: { (_, _, _, _, _) -> Void in
+                count++
+            })
+        }
+        return count
+    }
+    
     @IBInspectable
     public var textContainerInsetLeft: CGFloat {
         get {
